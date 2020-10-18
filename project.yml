@@ -1,0 +1,87 @@
+name: Graphidget # プロジェクト名
+
+options:
+  bundleIdPrefix: jp.altive
+  deploymentTarget:
+    iOS: 14.0 # 対象下限iOSバージョン
+  xcodeVersion: "12.0.1"
+  developmentLanguage: ja
+
+packages:
+  Charts:
+    url: https://github.com/danielgindi/Charts
+    version: 3.6.0
+
+targets:
+  Graphidget: # iOSアプリ本体
+    type: application
+    platform: iOS
+    sources:
+      - Graphidget
+    settings:
+      base:
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        DEVELOPMENT_TEAM: 3537BAHE48
+        INFOPLIST_FILE: Graphidget/Info.plist
+        # CODE_SIGN_ENTITLEMENTS: Graphidget/Graphidget.entitlements
+        DEVELOPMENT_LANGUAGE: jp
+    dependencies:
+      - package: Charts
+    # preBuildScripts: # ビルド前に実行するスクリプト（R.swift, Mockoloなど）
+    # postCompileScripts: # ビルド後に実行するスクリプト（SwiftLintなど）
+      # SwiftLintで静的解析と自動修正
+      # - script: |
+      #           if which mint >/dev/null; then
+      #             mint run swiftlint swiftlint autocorrect --format
+      #             mint run swiftlint swiftlint
+      #           else
+      #             echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
+      #           fi
+      #   name: Run SwiftLint
+
+  GraphidgetTests: # 単体テスト
+    type: bundle.unit-test
+    platform: iOS
+    settings:
+      base:
+        INFOPLIST_FILE: GraphidgetTests/Info.plist
+    sources:
+      - GraphidgetTests
+    dependencies:
+      - target: Graphidget # 本体アプリターゲットに依存
+
+  GraphidgetUITests: # UIテスト
+    type: bundle.ui-testing
+    platform: iOS
+    settings:
+      base:
+        INFOPLIST_FILE: GraphidgetUITests/Info.plist
+    sources:
+      - GraphidgetUITests # 本体アプリターゲットに依存
+
+schemes:
+  Graphidget:
+    build:
+      targets:
+        Graphidget: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      coverageTargets:
+        - Graphidget
+      targets:
+        - name: GraphidgetTests
+          parallelizable: true
+          randomExecutionOrder: true
+        - name: GraphidgetUITests
+          parallelizable: true
+          randomExecutionOrder: true
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
