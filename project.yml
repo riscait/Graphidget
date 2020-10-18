@@ -29,16 +29,16 @@ targets:
     dependencies:
       - package: Charts
     # preBuildScripts: # ビルド前に実行するスクリプト（R.swift, Mockoloなど）
-    # postCompileScripts: # ビルド後に実行するスクリプト（SwiftLintなど）
+    postCompileScripts: # ビルド後に実行するスクリプト（SwiftLintなど）
       # SwiftLintで静的解析と自動修正
-      # - script: |
-      #           if which mint >/dev/null; then
-      #             mint run swiftlint swiftlint autocorrect --format
-      #             mint run swiftlint swiftlint
-      #           else
-      #             echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
-      #           fi
-      #   name: Run SwiftLint
+      - script: |
+                if which mint >/dev/null; then
+                  mint run swiftlint swiftlint autocorrect --format
+                  mint run swiftlint swiftlint
+                else
+                  echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
+                fi
+        name: Run SwiftLint
 
   GraphidgetTests: # 単体テスト
     type: bundle.unit-test
