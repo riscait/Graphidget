@@ -38,12 +38,72 @@ targets:
         DEVELOPMENT_ASSET_PATHS: "\"Graphidget/Preview Content\""
         ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: true
         ENABLE_PREVIEWS: true
+        # Firebaseに必要
+        OTHER_LDFLAGS: $(inherited) $(OTHER_LDFLAGS) -ObjC
     dependencies:
       - target: GraphidgetWidget
       - package: Charts
-        
+      # 以下、Firebaseファミリーに必要なフレームワーク・SDK群
+      - framework: Carthage/Build/iOS/Firebase.framework
+        embed: false
+        link: false
+      - framework: Carthage/Build/iOS/abseil.framework
+        embed: false
+      - framework: Carthage/Build/iOS/BoringSSL-GRPC.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FIRAnalyticsConnector.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseABTesting.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseAnalytics.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseCore.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseCoreDiagnostics.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseCrashlytics.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseFirestore.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseInstallations.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseInstanceID.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebasePerformance.framework
+        embed: false
+      - framework: Carthage/Build/iOS/FirebaseRemoteConfig.framework
+        embed: false
+      - framework: Carthage/Build/iOS/GoogleAppMeasurement.framework
+        embed: false
+      - framework: Carthage/Build/iOS/GoogleDataTransport.framework
+        embed: false
+      - framework: Carthage/Build/iOS/GoogleDataTransportCCTSupport.framework
+        embed: false
+      - framework: Carthage/Build/iOS/GoogleToolboxForMac.framework
+        embed: false
+      - framework: Carthage/Build/iOS/GoogleUtilities.framework
+        embed: false
+      - framework: Carthage/Build/iOS/gRPC-C++.framework
+        embed: false
+      - framework: Carthage/Build/iOS/gRPC-Core.framework
+        embed: false
+      - framework: Carthage/Build/iOS/GTMSessionFetcher.framework
+        embed: false
+      - framework: Carthage/Build/iOS/leveldb-library.framework
+        embed: false
+      - framework: Carthage/Build/iOS/nanopb.framework
+        embed: false
+      - framework: Carthage/Build/iOS/PromisesObjC.framework
+        embed: false
+      - framework: Carthage/Build/iOS/Protobuf.framework
+        embed: false
+      - sdk: libc++.tbd
+      - sdk: libsqlite3.tbd
+      - sdk: CoreTelephony.framework
+      - sdk: StoreKit.framework
+
     # preBuildScripts: # ビルド前に実行するスクリプト（R.swift, Mockoloなど）
-    postCompileScripts: # ビルド後に実行するスクリプト（SwiftLintなど）
+    postCompileScripts: # コンパイル後に実行するスクリプト（SwiftLintなど）
       # SwiftLintで静的解析と自動修正
       - script: |
                 if which mint >/dev/null; then
@@ -53,6 +113,13 @@ targets:
                   echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
                 fi
         name: Run SwiftLint
+
+    postBuildScripts: # ビルド後に実行するスクリプト（SwiftLintなど）
+      # For Crashlytics
+      - script: /bin/sh ./Scripts/FirebaseCrashlytics/run
+        name: Run Firebase Crashlytics
+        inputFiles:
+          - $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
 
   GraphidgetTests: # 単体テストのターゲット
     type: bundle.unit-test

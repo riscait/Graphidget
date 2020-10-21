@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>756981071396-9jso0b5nf3c69ifvq5qr3vo9f7favnc5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.756981071396-9jso0b5nf3c69ifvq5qr3vo9f7favnc5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDbIU7YC2oxpEZ6MMFbvPPtSx_5T-qCdSo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>756981071396</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>jp.altive.Graphidget</string>
+	<key>PROJECT_ID</key>
+	<string>graphidget</string>
+	<key>STORAGE_BUCKET</key>
+	<string>graphidget.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:756981071396:ios:5bbb39ff5c27f4983c22b1</string>
+	<key>DATABASE_URL</key>
+	<string>https://graphidget.firebaseio.com</string>
+</dict>
+</plist>
