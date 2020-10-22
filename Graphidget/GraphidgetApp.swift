@@ -15,7 +15,7 @@ struct GraphidgetApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ChartListPage()
         }
     }
 }
