@@ -2,11 +2,15 @@ name: CI
 
 on:
   push:
+    branches: [ main, develop ]
+    paths-ignore: 
+      - README.md
+      - LICENSE
+  pull_request:
     branches: [ develop ]
     paths-ignore: 
       - README.md
-  pull_request:
-    branches: [ develop ]
+      - LICENSE
 
 env:
   DEVELOPER_DIR: /Applications/Xcode_12.app
@@ -19,9 +23,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       
+    - name: Show Xcode version
+      run: xcodebuild -version
+
     - name: Install Mint
       run: brew install mint
     
+    - name: Mint bootstrap
+      run: mint bootstrap
+      
     - name: Cache Mint packages
       uses: actions/cache@v2.1.2
       with:
@@ -30,9 +40,21 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-mint-
           
-    - name: Mint bootstrap
-      run: mint bootstrap
-      
+    # Carthageで管理しているライブラリのインストール
+    - name: Install Carthage frameworks
+      run: mint run carthage carthage bootstrap --platform iOS --cache-builds
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Carthageで管理しているライブラリのキャッシュ
+    - name: Cache Carthage packages
+      uses: actions/cache@v2
+      with:
+        path: Carthage
+        key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-carthage-
+
     - name: XcodeGen generate
       run: mint run xcodegen xcodegen generate
     
