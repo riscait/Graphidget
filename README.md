@@ -1,3 +1,5 @@
+![CI](https://github.com/Riscait/Graphidget/workflows/CI/badge.svg?branch=develop)
+
 # Graphidget
 Graph & Widget for iOS.
 
