@@ -161,6 +161,18 @@ targets:
       - sdk: SwiftUI.framework
       - sdk: WidgetKit.framework
 
+  GraphidgetIntent: # Intents Extension
+    type: app-extension
+    platform: iOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: jp.altive.Graphidget.GraphidgetIntent
+        INFOPLIST_FILE: GraphidgetIntent/Info.plist
+        SKIP_INSTALL: true
+        PRODUCT_NAME: $(TARGET_NAME)
+    sources:
+      - GraphidgetIntent
+      - GraphidgetWidget/GraphidgetWidget.intentdefinition
 
 schemes:
   Graphidget:
@@ -190,7 +202,7 @@ schemes:
     archive:
       config: Release
     
-  GraphidgetWidgetExtension:
+  GraphidgetWidget:
     build:
       targets:
         GraphidgetWidget: all
@@ -209,6 +221,25 @@ schemes:
         - variable: _XCWidgetFamily
           value: medium
           isEnabled: false
+    test:
+      config: Debug
+    profile:
+      config: Release
+      askForAppToLaunch: true
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+
+  GraphidgetIntent:
+    build:
+      targets:
+        GraphidgetIntent: all
+        Graphidget: all
+    run:
+      config: Debug
+      askForAppToLaunch: true
+      debugEnabled: false
     test:
       config: Debug
     profile:
