@@ -19,18 +19,31 @@ setup: # Install dependencies and prepared development configuration
 	make mint-bootstrap
 	make carthage-bootstrap
 	make generate
-	
+
 .PHONY: mint-bootstrap
 mint-bootstrap: # Install Mint dependencies
 	mint bootstrap
 
 .PHONY: carthage-bootstrap
 carthage-bootstrap: # Install Carthage dependencies
+	make export-carthage-config
 	mint run carthage carthage bootstrap --platform iOS --cache-builds
+	make show-carthage-dependencies
 
 .PHONY: carthage-update
 carthage-update: # Update Carthage dependencies
+	make export-carthage-config
 	mint run carthage carthage update --platform iOS
+	make show-carthage-dependencies
+
+.PHONY: show-carthage-dependencies
+show-carthage-dependencies:
+	@echo '*** Resolved dependencies:'
+	@cat 'Cartfile.resolved'
+
+.PHONY: export-carthage-config
+export-carthage-config:
+	export XCODE_XCCONFIG_FILE=Configs/Carthage.xcconfig
 
 .PHONY: generate
 generate:
