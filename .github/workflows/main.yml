@@ -22,6 +22,7 @@ jobs:
     env:
       MINT_PATH: mint/lib
       MINT_LINK_PATH: mint/bin
+      XCODE_XCCONFIG_FILE: Configs/Carthage.xcconfig
 
     steps:
     - name: Checkout
@@ -50,7 +51,7 @@ jobs:
       
     # Carthageで管理しているライブラリのキャッシュ
     - name: Cache Carthage packages
-      uses: actions/cache@v2
+      uses: actions/cache@v2.1.2
       with:
         path: Carthage
         key: ${{ runner.os }}-carthage-${{ hashFiles('**/Cartfile.resolved') }}
