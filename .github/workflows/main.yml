@@ -19,19 +19,27 @@ jobs:
   build:
     runs-on: macos-latest
 
+    env:
+      MINT_PATH: mint/lib
+      MINT_LINK_PATH: mint/bin
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       
+    # Xcodeのバージョン出力
     - name: Show Xcode version
       run: xcodebuild -version
 
+    # Makeのバージョン出力
+    - name: Show Make version
+      run: make --version
+
+    # Mintのインストール
     - name: Install Mint
       run: brew install mint
     
-    - name: Mint bootstrap
-      run: mint bootstrap
-      
+    # Mint で管理しているパッケージのインストールは自動で行われる
     - name: Cache Mint packages
       uses: actions/cache@v2.1.2
       with:
@@ -39,13 +47,7 @@ jobs:
         key: ${{ runner.os }}-mint-${{ hashFiles('**/Mintfile') }}
         restore-keys: |
           ${{ runner.os }}-mint-
-          
-    # Carthageで管理しているライブラリのインストール
-    - name: Install Carthage frameworks
-      run: mint run carthage carthage bootstrap --platform iOS --cache-builds
-      env:
-        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      
     # Carthageで管理しているライブラリのキャッシュ
     - name: Cache Carthage packages
       uses: actions/cache@v2
@@ -55,30 +57,42 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-carthage-
 
+    # Carthageで管理しているライブラリのインストール
+    - name: Install Carthage frameworks
+      run: make carthage-bootstrap
+      env:
+        GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Xcode Projectを生成
     - name: XcodeGen generate
       run: mint run xcodegen xcodegen generate
     
+    # ビルド
     - name: Xcode Build
-      run: set -o pipefail &&
-        xcodebuild
-        -sdk iphonesimulator
-        -configuration Debug
-        -scheme Graphidget
-        build
-        | xcpretty
+      run: make build-debug
         
+    # 単体テストの実行
     - name: Xcode Test
-      run: set -o pipefail &&
-        xcodebuild
-        -sdk iphonesimulator
-        -configuration Debug
-        -scheme Graphidget
-        -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max'
-        clean test
-        | xcpretty --report html
+      run: make test
         
+    # 成果物のアップロード
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.0
       with:
         name: test-results
         path: build/reports
+
+  info:
+    runs-on: macOS-latest
+
+    steps:
+    # チェックアウト
+    - uses: actions/checkout@v2
+
+    # Xcodeの一覧出力
+    - name: Show Xcode list
+      run: ls /Applications | grep 'Xcode'
+
+    # 端末の一覧出力
+    - name: Show devices
+      run: make show-devices
