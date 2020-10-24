@@ -80,3 +80,7 @@ test: # Xcode test # TEST_DEVICE=[device] TEST_OS=[OS]
 -skip-testing:${UI_TESTS_TARGET_NAME} \
 clean test \
 | xcpretty --report html
+
+.PHONY: show-devices
+show-devices: # Show devices
+	xcrun xctrace list devices
