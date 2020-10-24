@@ -103,9 +103,10 @@ targets:
       - sdk: StoreKit.framework
 
     # preBuildScripts: # ビルド前に実行するスクリプト（R.swift, Mockoloなど）
-    postCompileScripts: # コンパイル後に実行するスクリプト（SwiftLintなど）
+    postCompileScripts: # コンパイル後に実行するスクリプト
       # SwiftLintで静的解析と自動修正
       - script: |
+                unset SDKROOT
                 if which mint >/dev/null; then
                   mint run swiftlint swiftlint autocorrect --format
                   mint run swiftlint swiftlint
@@ -114,7 +115,7 @@ targets:
                 fi
         name: Run SwiftLint
 
-    postBuildScripts: # ビルド後に実行するスクリプト（SwiftLintなど）
+    postBuildScripts: # ビルド後に実行するスクリプト
       # For Crashlytics
       - script: /bin/sh ./Scripts/FirebaseCrashlytics/run
         name: Run Firebase Crashlytics
