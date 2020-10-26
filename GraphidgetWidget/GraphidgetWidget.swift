@@ -58,6 +58,9 @@ struct SimpleEntry: TimelineEntry {
 struct GraphidgetWidgetEntryView : View {
     var entry: Provider.Entry
 
+    // アプリ側で保存したUserDefaultsを使う
+//    let ud = UserDefaults(suiteName: "group.jp.altive.Graphidget")
+    
     var body: some View {
         VStack {
             // configuration.parameter = ユーザーが選択した項目情報
