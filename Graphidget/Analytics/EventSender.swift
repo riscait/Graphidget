@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAnalytics
 
 /// https://support.google.com/analytics/answer/9267735
-struct EventSender {
+enum EventSender {
 
     static func setUserID(_ id: String) {
         Analytics.setUserID(id)
