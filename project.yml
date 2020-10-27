@@ -57,6 +57,8 @@ targets:
         embed: false
       - framework: Carthage/Build/iOS/FirebaseAnalytics.framework
         embed: false
+      - framework: Carthage/Build/iOS/FirebaseAuth.framework
+        embed: false
       - framework: Carthage/Build/iOS/FirebaseCore.framework
         embed: false
       - framework: Carthage/Build/iOS/FirebaseCoreDiagnostics.framework
