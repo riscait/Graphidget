@@ -15,6 +15,7 @@ settings: # Project の Build Setting
   base: # Project全体設定
     DEVELOPMENT_TEAM: 3537BAHE48
     ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    DEBUG_INFORMATION_FORMAT: dwarf-with-dsym # Crashlytics の Warning対応
   configs: # Configurationごとの設定
     Release:
       VALIDATE_PRODUCT: true # 生成されたProductに対して検証テストを行うかどうか
