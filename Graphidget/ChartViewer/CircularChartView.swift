@@ -57,9 +57,12 @@ struct CircularChartView: UIViewRepresentable {
 
     func updateUIView(_ uiView: UIViewType, context: Context) {
 
-        let entries = chartData.entries.map { entry in
-            PieChartDataEntry(value: entry.value, label: entry.name)
-        }
+        let entries = chartData.entries
+            // 金額の大きい順に並び替える
+            .sorted { $0.value > $1.value }
+            .map { entry in
+                PieChartDataEntry(value: entry.value, label: entry.name)
+            }
 
         let dataSet = PieChartDataSet(entries: entries, label: chartData.title)
         // ColorSet: vordiplom, joyful, colorful, liberty, pastel, material
