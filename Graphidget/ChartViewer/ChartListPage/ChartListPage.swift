@@ -8,8 +8,51 @@
 import SwiftUI
 
 struct ChartListPage: View {
-    let graphList = [
-        ChartModel(
+
+    @State private var isPresented = false
+    @ObservedObject var viewModel = ChartListViewModel()
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                LazyVGrid(
+                    columns: Array(repeating: GridItem(), count: 2),
+                    alignment: .center,
+                    spacing: 8,
+                    pinnedViews: [.sectionHeaders, .sectionFooters]
+                ) {
+                    Section {
+                        ForEach(viewModel.charts) { chart in
+                            ThumbnailChartView(title: chart.title)
+                        }
+                    }
+                }
+                .padding()
+            }
+            .navigationBarTitle("Charts")
+            .navigationBarItems(
+                trailing: Button(action: {
+                    isPresented.toggle()
+                }, label: {
+                    Image(systemName: "plus.circle.fill")
+                        .imageScale(.large)
+                        .frame(width: 44, height: 44, alignment: .center)
+                })
+                .fullScreenCover(isPresented: $isPresented) {
+                    ChartEditingPage()
+                }
+            )
+            .onAppear {
+                viewModel.fetchData()
+            }
+        }
+    }
+}
+
+struct GraphListPage_Previews: PreviewProvider {
+    static var viewModel: ChartListViewModel {
+        let viewModel = ChartListViewModel()
+        viewModel.charts = [ChartModel(
             title: "タイトル",
             valueType: .percentage,
             entities: [
@@ -18,30 +61,11 @@ struct ChartListPage: View {
                     value: 20
                 ),
             ]
-        ),
-    ]
-
-    var body: some View {
-        ScrollView {
-            LazyVGrid(
-                columns: Array(repeating: GridItem(), count: 2),
-                alignment: .center/*@END_MENU_TOKEN@*/,
-                spacing: 8/*@END_MENU_TOKEN@*/,
-                pinnedViews: [.sectionHeaders, .sectionFooters]/*@END_MENU_TOKEN@*/
-            ) {
-                Section(header: Text("グラフ一覧"), footer: Text("Footer")) {
-                    ForEach(0..<graphList.count) { index in
-                        ThumbnailChartView(title: graphList[index].title)
-                    }
-                }
-            }/*@END_MENU_TOKEN@*/
-            .padding()
-        }
+        ), ]
+        return viewModel
     }
-}
 
-struct GraphListPage_Previews: PreviewProvider {
     static var previews: some View {
-        ChartListPage()
+        ChartListPage(viewModel: viewModel)
     }
 }
