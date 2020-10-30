@@ -9,17 +9,16 @@ import SwiftUI
 
 struct ThumbnailChartView: View {
     /// グラフのタイトル
-    let title: String
+    let chart: ChartModel
 
     var body: some View {
-        VStack(alignment: .center/*@END_MENU_TOKEN@*/,
-               spacing: 0/*@END_MENU_TOKEN@*/) {
-            CircularChartView(centerLabel: title,
+        VStack(alignment: .center, spacing: 0) {
+            CircularChartView(chartData: chart,
                               entryLabelEnabled: false,
                               centerTextEnabled: false,
                               legendEnabled: false)
                 .frame(height: 140)
-            Text(title)
+            Text(chart.title)
                 .padding(.bottom, 8)
         }
         .background(Color.black.opacity(0.05))
@@ -29,6 +28,12 @@ struct ThumbnailChartView: View {
 
 struct ThumbnailChartView_Previews: PreviewProvider {
     static var previews: some View {
-        ThumbnailChartView(title: "Graph Title")
+        ThumbnailChartView(
+            chart: ChartModel(
+                title: "",
+                valueType: .currency,
+                entries: [ChartModel.ChartEntryModel(name: "", value: 100)]
+            )
+        )
     }
 }

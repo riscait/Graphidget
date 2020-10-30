@@ -30,7 +30,7 @@ class ChartEditingViewModel: ObservableObject {
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
 
-    func appendEntityField() {
+    func appendEntryField() {
         guard chartItems.count < 6 else {
             // 個数制限
             return
@@ -53,7 +53,7 @@ class ChartEditingViewModel: ObservableObject {
         let chartData = ChartModel(
             title: chartName,
             valueType: chartType,
-            entities: chartItems.map { ChartModel.ChartEntityModel(name: $0.name, value: Double($0.value) ?? 0) }
+            entries: chartItems.map { ChartModel.ChartEntryModel(name: $0.name, value: Double($0.value) ?? 0) }
         )
 
         db.collection("users").document(user.uid).collection("charts").addDocument(data: chartData.toDictionary) { error in

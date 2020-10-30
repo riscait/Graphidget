@@ -13,7 +13,7 @@ struct ChartModel: Identifiable {
 
     let title: String
     let valueType: ValueType
-    let entities: [ChartEntityModel]
+    let entries: [ChartEntryModel]
 
     enum ValueType: String {
         case currency
@@ -29,7 +29,7 @@ struct ChartModel: Identifiable {
         }
     }
 
-    struct ChartEntityModel: Identifiable {
+    struct ChartEntryModel: Identifiable {
 
         let id = UUID()
 
@@ -41,7 +41,7 @@ struct ChartModel: Identifiable {
         [
             "title": title,
             "valueType": valueType.rawValue,
-            "entities": entities.map {[
+            "entries": entries.map {[
                 "name": $0.name,
                 "value": $0.value,
             ]

@@ -71,7 +71,8 @@ struct ChartEditingPage: View {
                         .multilineTextAlignment(.trailing)
                         .keyboardType(.numberPad)
                     Text(viewModel.chartType.suffix)
-                        .fontWeight(.ultraLight)
+                        .foregroundColor(Color(.placeholderText))
+                        .bold()
                 }
             }
         }
@@ -81,7 +82,7 @@ struct ChartEditingPage: View {
     private var appendItemSection: some View {
         Section {
             Button(action: {
-                viewModel.appendEntityField()
+                viewModel.appendEntryField()
             }, label: {
                 HStack {
                     Spacer()

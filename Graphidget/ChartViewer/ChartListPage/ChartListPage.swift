@@ -21,30 +21,32 @@ struct ChartListPage: View {
                     spacing: 8,
                     pinnedViews: [.sectionHeaders, .sectionFooters]
                 ) {
-                    Section {
-                        ForEach(viewModel.charts) { chart in
-                            ThumbnailChartView(title: chart.title)
-                        }
+                    ForEach(viewModel.charts) { chart in
+                        ThumbnailChartView(chart: chart)
                     }
                 }
                 .padding()
             }
             .navigationBarTitle("Charts")
             .navigationBarItems(
-                trailing: Button(action: {
-                    isPresented.toggle()
-                }, label: {
-                    Image(systemName: "plus.circle.fill")
-                        .imageScale(.large)
-                        .frame(width: 44, height: 44, alignment: .center)
-                })
-                .fullScreenCover(isPresented: $isPresented) {
-                    ChartEditingPage()
-                }
+                trailing: plusButton
             )
             .onAppear {
                 viewModel.fetchData()
             }
+        }
+    }
+
+    private var plusButton: some View {
+        Button(action: {
+            isPresented.toggle()
+        }, label: {
+            Image(systemName: "plus.circle.fill")
+                .imageScale(.large)
+                .frame(width: 44, height: 44, alignment: .center)
+        })
+        .fullScreenCover(isPresented: $isPresented) {
+            ChartEditingPage()
         }
     }
 }
@@ -55,7 +57,7 @@ struct GraphListPage_Previews: PreviewProvider {
         viewModel.charts = [ChartModel(
             title: "タイトル",
             valueType: .percentage,
-            entities: [
+            entries: [
                 .init(
                     name: "",
                     value: 20

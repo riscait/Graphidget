@@ -33,22 +33,22 @@ class ChartListViewModel: ObservableObject {
                 guard let title = data["title"] as? String,
                       let valueTypeRawValue = data["valueType"] as? String,
                       let valueType = ChartModel.ValueType(rawValue: valueTypeRawValue),
-                      let entitiesData = data["entities"] as? [[String: Any]] else {
+                      let entriesData = data["entries"] as? [[String: Any]] else {
                     return nil
                 }
 
-                let entities = entitiesData.compactMap { entity -> ChartModel.ChartEntityModel? in
-                    guard let name = entity["name"] as? String,
-                          let value = entity["value"] as? Double else {
+                let entries = entriesData.compactMap { entry -> ChartModel.ChartEntryModel? in
+                    guard let name = entry["name"] as? String,
+                          let value = entry["value"] as? Double else {
                         return nil
                     }
-                    return ChartModel.ChartEntityModel(name: name, value: value)
+                    return ChartModel.ChartEntryModel(name: name, value: value)
                 }
 
                 let chart = ChartModel(
                     title: title,
                     valueType: valueType,
-                    entities: entities
+                    entries: entries
                 )
                 return chart
             }

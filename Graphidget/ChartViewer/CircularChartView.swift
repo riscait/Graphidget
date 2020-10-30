@@ -11,7 +11,7 @@ import SwiftUI
 struct CircularChartView: UIViewRepresentable {
     typealias UIViewType = PieChartView
 
-    let centerLabel: String
+    let chartData: ChartModel
     let entryLabelColor = UIColor.white
     let entryLabelEnabled: Bool
     let centerTextEnabled: Bool
@@ -24,11 +24,10 @@ struct CircularChartView: UIViewRepresentable {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
         chart.centerAttributedText = .init(
-            string: centerLabel,
+            string: chartData.title,
             attributes: [
                 .paragraphStyle: paragraph,
                 .font: UIFont.boldSystemFont(ofSize: 20),
-
             ]
         )
         chart.drawCenterTextEnabled = centerTextEnabled
@@ -58,27 +57,11 @@ struct CircularChartView: UIViewRepresentable {
 
     func updateUIView(_ uiView: UIViewType, context: Context) {
 
-        fetchData { result in
-            switch result {
-            case .success(let data):
-                uiView.data = data
-
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        let entries = chartData.entries.map { entry in
+            PieChartDataEntry(value: entry.value, label: entry.name)
         }
-    }
 
-    func fetchData(completion: @escaping (Result<ChartData, Error>) -> Void) {
-        let entries = [
-            PieChartDataEntry(value: 20, label: "国内株式"),
-            PieChartDataEntry(value: 20, label: "米国株式"),
-            PieChartDataEntry(value: 20, label: "債権"),
-            PieChartDataEntry(value: 20, label: "預金"),
-            PieChartDataEntry(value: 20, label: "小規模企業共済"),
-        ]
-
-        let dataSet = PieChartDataSet(entries: entries, label: "Asset Allocation")
+        let dataSet = PieChartDataSet(entries: entries, label: chartData.title)
         // ColorSet: vordiplom, joyful, colorful, liberty, pastel, material
         dataSet.colors = ChartColorTemplates.colorful()
         dataSet.xValuePosition = .insideSlice
@@ -95,22 +78,38 @@ struct CircularChartView: UIViewRepresentable {
 
         // value label styling
         let formatter = NumberFormatter()
-        formatter.numberStyle = .percent
-        formatter.maximumFractionDigits = 1
-        formatter.multiplier = 1
+        switch chartData.valueType {
+        case .currency:
+            formatter.numberStyle = .currency
+            formatter.usesSignificantDigits = true
+        case .percentage:
+            formatter.numberStyle = .percent
+            formatter.maximumFractionDigits = 1
+            formatter.multiplier = 1
+        }
         //        formatter.percentSymbol = " %"
         data.setValueFormatter(DefaultValueFormatter(formatter: formatter))
         data.setValueFont(.boldSystemFont(ofSize: 16))
         data.setValueTextColor(entryLabelColor)
 
-        completion(.success(data))
+        uiView.data = data
     }
 }
 
 struct CircularChartView_Previews: PreviewProvider {
     static var previews: some View {
         CircularChartView(
-            centerLabel: "Asset\nAllocation",
+            chartData: ChartModel(
+                title: "Asset Allocation",
+                valueType: .currency,
+                entries: [
+                    ChartModel.ChartEntryModel(name: "国内株式", value: 1000000000),
+                    ChartModel.ChartEntryModel(name: "米国株式", value: 2000000000),
+                    ChartModel.ChartEntryModel(name: "債権", value: 3000000000),
+                    ChartModel.ChartEntryModel(name: "預金", value: 4000000000),
+                    ChartModel.ChartEntryModel(name: "小規模企業共済", value: 5000000000),
+                ]
+            ),
             entryLabelEnabled: true,
             centerTextEnabled: true,
             legendEnabled: true
