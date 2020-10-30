@@ -11,27 +11,39 @@ import FirebaseAnalytics
 /// https://support.google.com/analytics/answer/9267735
 enum EventSender {
 
-    static func setUserID(_ id: String) {
-        Analytics.setUserID(id)
+    /// イベントを送信すると同時にプリントする
+    /// - Parameters:
+    ///   - name: イベント名
+    ///   - parameters: Optionalなイベントパラメーター
+    private static func sendLogEvent(_ name: String, parameters: [String: Any]?) {
+        Analytics.logEvent(name, parameters: parameters)
+        print("logEvent(\(name):parameters:\(parameters ?? [:]))")
     }
 
-    static func setUserPropertys() {
+    static func setUserID(_ id: String) {
+        Analytics.setUserID(id)
+        print("setUserID(\(id)")
+    }
+
+    static func setUserPropertys(_ value: String, forName: String) {
         Analytics.setUserProperty("value", forName: "name")
+        print("setUserProperty(\(value):forName:\(forName))")
     }
 
     static func signUpAnonymous() {
-        Analytics.logEvent(AnalyticsEventSignUp, parameters: [AnalyticsParameterSignUpMethod: "Anonymous"])
+        sendLogEvent(AnalyticsEventSignUp, parameters: [AnalyticsParameterSignUpMethod: "Anonymous"])
     }
 
-    static func loginAnonymous() {
-        Analytics.logEvent(AnalyticsEventLogin, parameters: [AnalyticsParameterMethod: "Anonymous"])
+    static func loginAnonymous(uid: String) {
+        sendLogEvent(AnalyticsEventLogin, parameters: [AnalyticsParameterMethod: "Anonymous"])
+        print("uid: \(uid)")
     }
 
     static func beginTutorial() {
-        Analytics.logEvent(AnalyticsEventTutorialBegin, parameters: nil)
+        sendLogEvent(AnalyticsEventTutorialBegin, parameters: nil)
     }
 
     static func completeTutorial() {
-        Analytics.logEvent(AnalyticsEventTutorialComplete, parameters: nil)
+        sendLogEvent(AnalyticsEventTutorialComplete, parameters: nil)
     }
 }
