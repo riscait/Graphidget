@@ -43,7 +43,9 @@ class ChartEditingViewModel: ObservableObject {
         chartItems.remove(atOffsets: offsets)
     }
 
-    func wtite(completion: @escaping (Result<Void, DBError>) -> Void) {
+    /// チャートデータを保存する
+    /// - Parameter completion: 成功またはエラーを返す
+    func saveChart(completion: @escaping (Result<Void, DBError>) -> Void) {
         guard let user = auth.currentUser else {
             print("No user")
             completion(.failure(.noUser))
@@ -56,7 +58,12 @@ class ChartEditingViewModel: ObservableObject {
             entries: chartItems.map { ChartModel.ChartEntryModel(name: $0.name, value: Double($0.value) ?? 0) }
         )
 
-        db.collection("users").document(user.uid).collection("charts").addDocument(data: chartData.toDictionary) { error in
+        var dictionary = chartData.toDictionary
+
+        dictionary["createdAt"] = FirebaseFirestore.FieldValue.serverTimestamp()
+        dictionary["updatedAt"] = FirebaseFirestore.FieldValue.serverTimestamp()
+
+        db.collection("users").document(user.uid).collection("charts").addDocument(data: dictionary) { error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(.failure(.unknown))
@@ -69,5 +76,6 @@ class ChartEditingViewModel: ObservableObject {
 
 enum DBError: Error {
     case noUser
+    case encodeFailed
     case unknown
 }

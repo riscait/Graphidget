@@ -6,14 +6,17 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
-struct ChartModel: Identifiable {
-
-    let id = UUID()
+/// チャートのモデルクラス
+/// `ForEach(_:id:)` で使用するために `Hashable` に適合
+struct ChartModel: Hashable {
 
     let title: String
     let valueType: ValueType
     let entries: [ChartEntryModel]
+    var createdAt: Date?
+    var updatedAt: Date?
 
     enum ValueType: String {
         case currency
@@ -29,9 +32,7 @@ struct ChartModel: Identifiable {
         }
     }
 
-    struct ChartEntryModel: Identifiable {
-
-        let id = UUID()
+    struct ChartEntryModel: Hashable {
 
         let name: String
         let value: Double
@@ -49,3 +50,17 @@ struct ChartModel: Identifiable {
         ]
     }
 }
+
+// Stab data
+
+let chartModelStab = ChartModel(
+    title: "Asset Allocation",
+    valueType: .currency,
+    entries: [
+        ChartModel.ChartEntryModel(name: "Stock", value: 40),
+        ChartModel.ChartEntryModel(name: "Bond", value: 40),
+        ChartModel.ChartEntryModel(name: "cash", value: 20),
+    ],
+    createdAt: Date(),
+    updatedAt: Date()
+)

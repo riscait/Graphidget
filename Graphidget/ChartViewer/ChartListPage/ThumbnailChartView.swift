@@ -25,7 +25,7 @@ struct ThumbnailChartView: View {
             Text(chart.title)
         }
         .padding()
-        .background(Color.black.opacity(0.05))
+        .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
     }
 }
@@ -33,14 +33,7 @@ struct ThumbnailChartView: View {
 struct ThumbnailChartView_Previews: PreviewProvider {
     static var previews: some View {
         ThumbnailChartView(
-            chart: ChartModel(
-                title: "Asset Allocation",
-                valueType: .currency,
-                entries: [
-                    ChartModel.ChartEntryModel(name: "Stock", value: 60),
-                    ChartModel.ChartEntryModel(name: "Bond", value: 40),
-                ]
-            )
+            chart: chartModelStab
         )
     }
 }

@@ -21,8 +21,11 @@ struct ChartListPage: View {
                     spacing: 8,
                     pinnedViews: [.sectionHeaders, .sectionFooters]
                 ) {
-                    ForEach(viewModel.charts) { chart in
-                        ThumbnailChartView(chart: chart)
+                    ForEach(viewModel.charts, id: \.self) { chart in
+                        NavigationLink(destination: ChartDetailPage(chart: chart)) {
+                            ThumbnailChartView(chart: chart)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
                 .padding()
@@ -54,16 +57,9 @@ struct ChartListPage: View {
 struct GraphListPage_Previews: PreviewProvider {
     static var viewModel: ChartListViewModel {
         let viewModel = ChartListViewModel()
-        viewModel.charts = [ChartModel(
-            title: "タイトル",
-            valueType: .percentage,
-            entries: [
-                .init(
-                    name: "",
-                    value: 20
-                ),
-            ]
-        ), ]
+        viewModel.charts = [
+            chartModelStab,
+        ]
         return viewModel
     }
 

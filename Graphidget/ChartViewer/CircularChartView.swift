@@ -9,8 +9,10 @@ import Charts
 import SwiftUI
 
 struct CircularChartView: UIViewRepresentable {
+
     typealias UIViewType = PieChartView
 
+    // Parameters
     let chartData: ChartModel
     let entryLabelColor = UIColor.white
     let entryLabelEnabled: Bool
@@ -20,7 +22,7 @@ struct CircularChartView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIViewType {
         let chart = PieChartView()
-
+        // チャート中央に表示する文字列
         //        chart.centerText = "Asset\nAllocation"
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
@@ -32,27 +34,38 @@ struct CircularChartView: UIViewRepresentable {
             ]
         )
         chart.drawCenterTextEnabled = centerTextEnabled
-
         // entry label styling
         chart.entryLabelFont = .boldSystemFont(ofSize: 13)
         chart.entryLabelColor = entryLabelColor
         chart.drawEntryLabelsEnabled = entryLabelEnabled
-
         // no data label styling
         chart.noDataFont = .italicSystemFont(ofSize: 15)
+        // チャートの背景色
+        chart.backgroundColor = .clear
 
         // legend styling
         let legend = chart.legend
+        // 凡例の表示・非表示
+        legend.enabled = legendEnabled
+        // 凡例の表示位置
         legend.horizontalAlignment = .center
-        legend.verticalAlignment = .top
-        //        legend.orientation = .vertical
+        legend.verticalAlignment = .bottom
+        // 凡例の並び方：縦 or 横
+        legend.orientation = .horizontal
+        // 凡例の縦横スペース
         legend.xEntrySpace = 7
         legend.yEntrySpace = 0
-        legend.yOffset = 0
-        legend.enabled = legendEnabled
+        // 凡例の位置のズレ
+        legend.xOffset = 0
+        legend.yOffset = 5
+        // 凡例の表示向き
+        legend.direction = .leftToRight
+        // 凡例がチャートの内側に描画されるか
+        legend.drawInside = true
+        // 凡例の記号の形
+        legend.form = .default
 
         //        chart.setExtraOffsets(left: 0, top: 0, right: 0, bottom: 0)
-        //        chart.backgroundColor = .lightGray
         return chart
     }
 
@@ -114,7 +127,9 @@ struct CircularChartView_Previews: PreviewProvider {
                     ChartModel.ChartEntryModel(name: "債権", value: 3000000000),
                     ChartModel.ChartEntryModel(name: "預金", value: 4000000000),
                     ChartModel.ChartEntryModel(name: "小規模企業共済", value: 5000000000),
-                ]
+                ],
+                createdAt: Date(),
+                updatedAt: Date()
             ),
             entryLabelEnabled: true,
             centerTextEnabled: true,

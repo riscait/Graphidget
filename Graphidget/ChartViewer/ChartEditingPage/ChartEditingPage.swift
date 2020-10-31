@@ -96,7 +96,7 @@ struct ChartEditingPage: View {
 
     private var registerSection: some View {
         Button(action: {
-            viewModel.wtite { result in
+            viewModel.saveChart { result in
                 switch result {
                 case .success:
                     presentationMode.wrappedValue.dismiss()

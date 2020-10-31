@@ -15,9 +15,9 @@ enum EventSender {
     /// - Parameters:
     ///   - name: イベント名
     ///   - parameters: Optionalなイベントパラメーター
-    private static func sendLogEvent(_ name: String, parameters: [String: Any]?) {
+    private static func sendLogEvent(_ name: String, parameters: [String: Any]) {
         Analytics.logEvent(name, parameters: parameters)
-        print("logEvent(\(name):parameters:\(parameters ?? [:]))")
+        print("logEvent(\(name):parameters:\(parameters))")
     }
 
     static func setUserID(_ id: String) {
@@ -40,10 +40,10 @@ enum EventSender {
     }
 
     static func beginTutorial() {
-        sendLogEvent(AnalyticsEventTutorialBegin, parameters: nil)
+        sendLogEvent(AnalyticsEventTutorialBegin, parameters: [:])
     }
 
     static func completeTutorial() {
-        sendLogEvent(AnalyticsEventTutorialComplete, parameters: nil)
+        sendLogEvent(AnalyticsEventTutorialComplete, parameters: [:])
     }
 }
