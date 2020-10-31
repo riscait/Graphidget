@@ -23,7 +23,7 @@ struct ChartEditingPage: View {
                         appendItemSection
                     }
                 }
-                .navigationBarTitle("New Chart", displayMode: .inline)
+                .navigationBarTitle("ChartEditingPage.title", displayMode: .inline)
                 .navigationBarItems(
                     leading: Button(action: {
                         presentationMode.wrappedValue.dismiss()
@@ -41,9 +41,9 @@ struct ChartEditingPage: View {
 
     private var typeSelection: some View {
         Picker("", selection: $viewModel.chartType) {
-            Text("Percentage")
+            Text("ChartEditingPage.percentage")
                 .tag(ChartModel.ValueType.percentage)
-            Text("Currency")
+            Text("ChartEditingPage.currency")
                 .tag(ChartModel.ValueType.currency)
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -51,23 +51,26 @@ struct ChartEditingPage: View {
     }
 
     private var chartNameSection: some View {
-        Section(header: Text("Chart name")) {
-            TextField("My Assets", text: $viewModel.chartName)
+        Section(header: Text("ChartEditingPage.chartName.header")) {
+            TextField("ChartEditingPage.chartName.placeholder", text: $viewModel.chartName)
                 .multilineTextAlignment(.trailing)
         }
     }
 
     private var itemSections: some View {
         ForEach(viewModel.chartItems.indices, id: \.self) { index in
-            Section(header: Text("Item \(index + 1)")) {
+            Section(header: HStack {
+                Text("ChartEditingPage.item.header")
+                Text("\(index + 1)")
+            }) {
                 HStack {
-                    Text("Name").bold()
-                    TextField("Stock", text: $viewModel.chartItems[index].name)
+                    Text("ChartEditingPage.item.name.title").bold()
+                    TextField("ChartEditingPage.item.name.placeholder", text: $viewModel.chartItems[index].name)
                         .multilineTextAlignment(.trailing)
                 }
                 HStack {
-                    Text("Value").bold()
-                    TextField("20", text: $viewModel.chartItems[index].value)
+                    Text("ChartEditingPage.item.value.title").bold()
+                    TextField("ChartEditingPage.item.value.placeholder", text: $viewModel.chartItems[index].value)
                         .multilineTextAlignment(.trailing)
                         .keyboardType(.numberPad)
                     Text(viewModel.chartType.suffix)
@@ -87,7 +90,7 @@ struct ChartEditingPage: View {
                 HStack {
                     Spacer()
                     Image(systemName: "plus.circle")
-                    Text("Append item").multilineTextAlignment(.center)
+                    Text("ChartEditingPage.appendItem.button").multilineTextAlignment(.center)
                     Spacer()
                 }
             })
@@ -107,7 +110,7 @@ struct ChartEditingPage: View {
         }, label: {
             HStack {
                 Spacer()
-                Text("Register")
+                Text("ChartEditingPage.create.button")
                     .bold()
                 Spacer()
             }
