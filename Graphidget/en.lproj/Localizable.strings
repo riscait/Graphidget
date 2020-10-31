@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  Graphidget
+
+  Created by 村松龍之介 on 2020/10/31.
+  
+*/
+
+"ChartListPage.title" = "Charts";
+"ChartEditingPage.title" = "New Chart";
+"ChartEditingPage.percentage" = "Percentage (%)";
+"ChartEditingPage.currency" = "Currency";
+"ChartEditingPage.chartName.header" = "Chart name";
+"ChartEditingPage.chartName.placeholder" = "My Assets";
+"ChartEditingPage.item.header" = "Item";
+"ChartEditingPage.item.name.title" = "Name";
+"ChartEditingPage.item.name.placeholder" = "Stock";
+"ChartEditingPage.item.value.title" = "Value";
+"ChartEditingPage.item.value.placeholder" = "20";
+"ChartEditingPage.appendItem.button" = "Append item";
+"ChartEditingPage.create.button" = "Create";

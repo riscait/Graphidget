@@ -30,7 +30,7 @@ struct ChartListPage: View {
                 }
                 .padding()
             }
-            .navigationBarTitle("Charts")
+            .navigationTitle("ChartListPage.title")
             .navigationBarItems(
                 trailing: plusButton
             )
