@@ -6,5 +6,9 @@
 	<array>
 		<string>group.jp.altive.Graphidget</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)jp.altive.Graphidget</string>
+	</array>
 </dict>
 </plist>
