@@ -29,6 +29,7 @@ struct CircularChartView: UIViewRepresentable {
         chart.centerAttributedText = .init(
             string: chartData.title,
             attributes: [
+                .foregroundColor: UIColor.label,
                 .paragraphStyle: paragraph,
                 .font: UIFont.boldSystemFont(ofSize: 20),
             ]
@@ -42,7 +43,10 @@ struct CircularChartView: UIViewRepresentable {
         chart.noDataFont = .italicSystemFont(ofSize: 15)
         // チャートの背景色
         chart.backgroundColor = .clear
-
+        // Entryと穴の間の色
+        chart.transparentCircleColor = nil
+        // 穴の色
+        chart.holeColor = .clear
         // legend styling
         let legend = chart.legend
         // 凡例の表示・非表示
