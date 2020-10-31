@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SharedObjects
 
 struct ChartDetailPage: View {
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SharedObjects
 import FirebaseAuth
 import FirebaseFirestore
 

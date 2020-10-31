@@ -8,6 +8,7 @@
 import WidgetKit
 import SwiftUI
 import Intents
+import SharedObjects
 
 struct Provider: IntentTimelineProvider {
     // 初回表示に呼ばれるが、呼ばれないこともあるようだ
