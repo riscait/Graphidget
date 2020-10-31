@@ -16,6 +16,7 @@ struct CircularChartView: UIViewRepresentable {
     let entryLabelEnabled: Bool
     let centerTextEnabled: Bool
     let legendEnabled: Bool
+    var selectionShift: Double = 0
 
     func makeUIView(context: Context) -> UIViewType {
         let chart = PieChartView()
@@ -65,6 +66,8 @@ struct CircularChartView: UIViewRepresentable {
             }
 
         let dataSet = PieChartDataSet(entries: entries, label: chartData.title)
+        // タッチした時の広がり具合
+        dataSet.selectionShift = CGFloat(selectionShift)
         // ColorSet: vordiplom, joyful, colorful, liberty, pastel, material
         dataSet.colors = ChartColorTemplates.colorful()
         dataSet.xValuePosition = .insideSlice
@@ -115,7 +118,8 @@ struct CircularChartView_Previews: PreviewProvider {
             ),
             entryLabelEnabled: true,
             centerTextEnabled: true,
-            legendEnabled: true
+            legendEnabled: true,
+            selectionShift: 20
         )
     }
 }

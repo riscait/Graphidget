@@ -13,14 +13,18 @@ struct ThumbnailChartView: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            CircularChartView(chartData: chart,
-                              entryLabelEnabled: false,
-                              centerTextEnabled: false,
-                              legendEnabled: false)
-                .frame(height: 140)
+            CircularChartView(
+                chartData: chart,
+                entryLabelEnabled: false,
+                centerTextEnabled: false,
+                legendEnabled: false,
+                selectionShift: 0
+            )
+            .frame(height: 140)
+            .padding(.bottom, 8)
             Text(chart.title)
-                .padding(.bottom, 8)
         }
+        .padding()
         .background(Color.black.opacity(0.05))
         .cornerRadius(16)
     }
@@ -30,9 +34,12 @@ struct ThumbnailChartView_Previews: PreviewProvider {
     static var previews: some View {
         ThumbnailChartView(
             chart: ChartModel(
-                title: "",
+                title: "Asset Allocation",
                 valueType: .currency,
-                entries: [ChartModel.ChartEntryModel(name: "", value: 100)]
+                entries: [
+                    ChartModel.ChartEntryModel(name: "Stock", value: 60),
+                    ChartModel.ChartEntryModel(name: "Bond", value: 40),
+                ]
             )
         )
     }
