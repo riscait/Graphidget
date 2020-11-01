@@ -23,13 +23,17 @@ struct DetailChartView: View {
             )
         }
         .padding()
-        .background(Color(.secondarySystemGroupedBackground))
+        .background(Color(.secondarySystemBackground))
         .cornerRadius(16)
     }
 }
 
 struct DetailChartView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailChartView(chart: chartModelStab)
+        Group {
+            DetailChartView(chart: chartModelStab)
+            DetailChartView(chart: chartModelStab)
+                .environment(\.colorScheme, .dark)
+        }
     }
 }

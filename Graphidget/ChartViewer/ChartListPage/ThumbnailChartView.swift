@@ -26,15 +26,21 @@ struct ThumbnailChartView: View {
             Text(chart.title)
         }
         .padding()
-        .background(Color(.secondarySystemGroupedBackground))
+        .background(Color(.secondarySystemBackground))
         .cornerRadius(16)
     }
 }
 
 struct ThumbnailChartView_Previews: PreviewProvider {
     static var previews: some View {
-        ThumbnailChartView(
-            chart: chartModelStab
-        )
+        Group {
+            ThumbnailChartView(
+                chart: chartModelStab
+            )
+            ThumbnailChartView(
+                chart: chartModelStab
+            )
+            .environment(\.colorScheme, .dark)
+        }
     }
 }

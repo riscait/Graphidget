@@ -65,6 +65,10 @@ struct GraphListPage_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        ChartListPage(viewModel: viewModel)
+        Group {
+            ChartListPage(viewModel: viewModel)
+            ChartListPage(viewModel: viewModel)
+                .environment(\.colorScheme, .dark)
+        }
     }
 }
