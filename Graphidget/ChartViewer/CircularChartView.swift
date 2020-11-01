@@ -7,6 +7,7 @@
 
 import Charts
 import SwiftUI
+import SharedObjects
 
 struct CircularChartView: UIViewRepresentable {
 

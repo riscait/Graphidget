@@ -7,6 +7,8 @@ options:
   developmentLanguage: ja
 
 packages:
+  SharedObjects:
+    path: ./SharedObjects
   Charts:
     url: https://github.com/danielgindi/Charts
     version: 3.6.0
@@ -43,6 +45,7 @@ targets:
         OTHER_LDFLAGS: $(inherited) $(OTHER_LDFLAGS) -ObjC
     dependencies:
       - target: GraphidgetWidget
+      - package: SharedObjects
       - package: Charts
       # 以下、Firebaseファミリーに必要なフレームワーク・SDK群
       - framework: Carthage/Build/iOS/Firebase.framework
@@ -163,6 +166,7 @@ targets:
     dependencies:
       - sdk: SwiftUI.framework
       - sdk: WidgetKit.framework
+      - package: SharedObjects
 
   GraphidgetIntent: # Intents Extension
     type: app-extension
