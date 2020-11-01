@@ -11,7 +11,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 /// `value` が文字列
-struct ChartItem {
+struct ChartEntry {
     var name: String
     var value: String
 
@@ -26,7 +26,7 @@ class ChartEditingViewModel: ObservableObject {
     @Published var chartType = ChartModel.ValueType.currency
     @Published var chartName = ""
     /// チャートの項目、初期値で空の項目を2つ用意
-    @Published var chartItems = [ChartItem(), ChartItem()]
+    @Published var chartItems = [ChartEntry(), ChartEntry()]
 
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
@@ -37,7 +37,7 @@ class ChartEditingViewModel: ObservableObject {
             return
         }
         // 空のアイテムを追加
-        chartItems.append(ChartItem())
+        chartItems.append(ChartEntry())
     }
 
     func delete(at offsets: IndexSet) {
@@ -56,7 +56,14 @@ class ChartEditingViewModel: ObservableObject {
         let chartData = ChartModel(
             title: chartName,
             valueType: chartType,
-            entries: chartItems.map { ChartModel.ChartEntryModel(name: $0.name, value: Double($0.value) ?? 0) }
+            entries: chartItems.compactMap { entry in
+                if entry.name.isEmpty && entry.value.isEmpty {
+                    return nil
+                }
+                return ChartModel.ChartEntryModel(
+                    name: entry.name, value: Double(entry.value) ?? 0
+                )
+            }
         )
 
         var dictionary = chartData.toDictionary

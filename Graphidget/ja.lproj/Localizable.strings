@@ -12,10 +12,13 @@
 "ChartEditingPage.currency" = "通貨";
 "ChartEditingPage.chartName.header" = "チャートの名前";
 "ChartEditingPage.chartName.placeholder" = "資産";
-"ChartEditingPage.item.header" = "項目";
+"ChartEditingPage.item.header %@" = "項目 %@";
 "ChartEditingPage.item.name.title" = "項目名";
 "ChartEditingPage.item.name.placeholder" = "国内株式";
 "ChartEditingPage.item.value.title" = "項目値";
 "ChartEditingPage.item.value.placeholder" = "20";
 "ChartEditingPage.appendItem.button" = "項目を追加";
 "ChartEditingPage.create.button" = "作成";
+
+"ChartDetailPage.createdAt %@" = "作成日： %@";
+"ChartDetailPage.updatedAt %@" = "更新日： %@";

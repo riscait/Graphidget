@@ -15,9 +15,9 @@ struct ChartDetailPage: View {
     var body: some View {
         VStack {
             DetailChartView(chart: chart)
-            Text("Created at: \(chart.createdAt?.longStyleString ?? "")")
+            Text("ChartDetailPage.createdAt \(chart.createdAt?.longStyleString ?? "")")
                 .padding()
-            Text("Updated at: \(chart.updatedAt?.longStyleString ?? "")")
+            Text("ChartDetailPage.updatedAt \(chart.updatedAt?.longStyleString ?? "")")
             Spacer()
         }
         .navigationTitle(chart.title)
@@ -26,6 +26,13 @@ struct ChartDetailPage: View {
 
 struct ChartDetailPage_Previews: PreviewProvider {
     static var previews: some View {
-        ChartDetailPage(chart: chartModelStab)
+        Group {
+            ChartDetailPage(chart: chartModelStab)
+                .environment(\.colorScheme, .light)
+                .environment(\.locale, .init(identifier: "en"))
+            ChartDetailPage(chart: chartModelStab)
+                .environment(\.colorScheme, .dark)
+                .environment(\.locale, .init(identifier: "ja"))
+        }
     }
 }

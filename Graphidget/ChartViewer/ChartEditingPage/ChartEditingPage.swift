@@ -60,10 +60,8 @@ struct ChartEditingPage: View {
 
     private var itemSections: some View {
         ForEach(viewModel.chartItems.indices, id: \.self) { index in
-            Section(header: HStack {
-                Text("ChartEditingPage.item.header")
-                Text("\(index + 1)")
-            }) {
+            // なぜか数値だとLocalizeできないのでStringに変換している
+            Section(header: Text("ChartEditingPage.item.header \(String(index.advanced(by: 1)))")) {
                 HStack {
                     Text("ChartEditingPage.item.name.title").bold()
                     TextField("ChartEditingPage.item.name.placeholder", text: $viewModel.chartItems[index].name)
@@ -126,7 +124,7 @@ struct ChartEditingPage_Previews: PreviewProvider {
         let viewModel = ChartEditingViewModel()
 
         viewModel.chartName = ""
-        viewModel.chartItems = [ChartItem()]
+        viewModel.chartItems = [ChartEntry()]
 
         return viewModel
     }
