@@ -26,6 +26,12 @@ targets:
   Graphidget: # iOSアプリ本体のターゲット
     type: application
     platform: iOS
+    entitlements:
+      path: Graphidget/Graphidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.jp.altive.Graphidget
+        # keychain-access-groups: $(AppIdentifierPrefix)jp.altive.Graphidget
     sources:
       - Graphidget
       - path: GraphidgetWidget/GraphidgetWidget.intentdefinition
@@ -153,6 +159,12 @@ targets:
   GraphidgetWidget: # Widget Extension
     type: app-extension
     platform: iOS
+    entitlements:
+      path: GraphidgetWidget/GraphidgetWidget.entitlements
+      properties:
+        com.apple.security.application-groups: 
+          - group.jp.altive.Graphidget
+        # keychain-access-groups: $(AppIdentifierPrefix)jp.altive.Graphidget
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: jp.altive.Graphidget.GraphidgetWidget
@@ -167,6 +179,7 @@ targets:
       - sdk: SwiftUI.framework
       - sdk: WidgetKit.framework
       - package: SharedObjects
+      - package: Charts
 
   GraphidgetIntent: # Intents Extension
     type: app-extension

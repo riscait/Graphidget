@@ -60,18 +60,28 @@ struct GraphidgetWidgetEntryView : View {
     var entry: Provider.Entry
 
     // アプリ側で保存したUserDefaultsを使う
-//    let ud = UserDefaults(suiteName: "group.jp.altive.Graphidget")
+    let ud = UserDefaults(suiteName: "group.jp.altive.Graphidget")
     
     var body: some View {
-        VStack {
-            // configuration.parameter = ユーザーが選択した項目情報
-            if let parameter = entry.configuration.parameter {
-                Text(parameter.identifier ?? "none")
-                Text(parameter.displayString)
-            } else {
-                Text(entry.date, style: .date)
+        if let data = ud?.data(forKey: "latestChartData"),
+           let chart = try? JSONDecoder().decode(ChartModel.self, from: data) {
+            VStack {
+                Text(chart.title)
+                Text("ある")
             }
+        } else {
+            Text("データなし")
         }
+//        VStack {
+//            // configuration.parameter = ユーザーが選択した項目情報
+//            if let parameter = entry.configuration.parameter {
+//                Text(parameter.identifier ?? "none")
+//                Text(parameter.displayString)
+//            } else {
+//
+//                Text(entry.date, style: .date)
+//            }
+//        }
     }
 }
 

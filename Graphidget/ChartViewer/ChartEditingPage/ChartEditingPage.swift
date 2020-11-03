@@ -14,9 +14,8 @@ struct ChartEditingPage: View {
 
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 0) {
                 typeSelection
-
                 Form {
                     chartNameSection
                     itemSections
@@ -24,19 +23,20 @@ struct ChartEditingPage: View {
                         appendItemSection
                     }
                 }
-                .navigationBarTitle("ChartEditingPage.title", displayMode: .inline)
-                .navigationBarItems(
-                    leading: Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .imageScale(.large)
-                            .frame(width: 44, height: 44, alignment: .center)
-                    }),
-                    trailing: EditButton()
-                )
                 registerSection
+                    .background(Color(UIColor.systemGroupedBackground))
             }
+            .navigationBarTitle("ChartEditingPage.title", displayMode: .inline)
+            .navigationBarItems(
+                leading: Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .imageScale(.large)
+                        .frame(width: 44, height: 44, alignment: .center)
+                }),
+                trailing: EditButton()
+            )
         }
     }
 
@@ -111,10 +111,14 @@ struct ChartEditingPage: View {
                 Spacer()
                 Text("ChartEditingPage.create.button")
                     .bold()
+                    .foregroundColor(Color(UIColor.systemBackground))
                 Spacer()
             }
         })
         .padding()
+        .background(Color.accentColor)
+        //        .clipShape(Capsule())
+        .cornerRadius(.infinity, corners: [.topLeft, .topRight])
         .disabled(viewModel.chartName.isEmpty)
     }
 }
@@ -129,6 +133,10 @@ struct ChartEditingPage_Previews: PreviewProvider {
         return viewModel
     }
     static var previews: some View {
-        ChartEditingPage(viewModel: viewModel)
+        Group {
+            ChartEditingPage(viewModel: viewModel)
+            ChartEditingPage(viewModel: viewModel)
+                .environment(\.colorScheme, .dark)
+        }
     }
 }

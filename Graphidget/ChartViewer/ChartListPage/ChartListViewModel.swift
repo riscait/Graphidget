@@ -33,6 +33,8 @@ class ChartListViewModel: ObservableObject {
                 return
             }
             charts = documents.compactMap(createChart)
+            // Widgetで表示するために保存
+            WidgetManager.save(chart: charts.first)
         }
     }
 

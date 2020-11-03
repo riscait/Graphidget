@@ -6,6 +6,7 @@
 //
 
 import WidgetKit
+import SharedObjects
 
 /// アプリ側からWidgetを操作する
 /// MEMO: Widget側に移した方が良いかも？
@@ -17,8 +18,13 @@ struct WidgetManager {
 
     /// Widget target と共有するデータを保存する
     /// - Parameter dataString: 保存する文字列
-    static func save(dataString: String) {
-        userDefaults?.set(dataString, forKey: "key")
+    static func save(chart: ChartModel?) {
+        guard let chart = chart,
+              let data = try? JSONEncoder().encode(chart) else {
+            return
+        }
+        userDefaults?.set(data, forKey: "latestChartData")
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     /// Widgetをリロードさせる
